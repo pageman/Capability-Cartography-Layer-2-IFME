@@ -42,12 +42,13 @@ class SutskeverAgentWorkflowBridge:
         brief_path = output_dir / "agent_brief.json"
         brief_path.write_text(json.dumps(brief, indent=2))
         workflow = {
-            "name": "capability-cartography-layer-2-study",
-            "description": "Read measured cartography outputs, failure atlas summaries, and plots; then narrate boundary shifts and failure risks.",
+            "name": "capability-cartography-layer-2-ifme-study",
+            "description": "Read measured cartography outputs, IFME lock summaries, failure atlas summaries, and plots; then narrate boundary shifts, lock structure, and failure risks.",
             "steps": [
                 {"use_skill": "capability-cartography"},
                 {"consume": str(brief_path)},
                 {"summarize": "predictive_laws"},
+                {"summarize": "ifme_locks"},
                 {"summarize": "failure_atlas"},
                 {"summarize": "phase_regions"},
             ],

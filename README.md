@@ -28,13 +28,62 @@ If you want the main second-generation additions, focus on these modules:
 - `capability_cartography/agent_integration.py`
 - `capability_cartography/compressibility.py` for live-weight estimators
 
+## Tao and Keating Concerns
+
+The main philosophical pressure on this repo comes from a concern articulated sharply by Terence Tao and echoed in a broader way by Prof. Brian Keating:
+
+- the mathematics of model construction is comparatively straightforward
+- the mystery is behavioral, not mechanical
+- the unresolved question is why competence appears here, fails there, and remains hard to predict in advance
+
+This IFME repo is an attempt to answer that concern in a stricter way than a normal benchmark repo.
+
+If you want the full run-specific interpretation, read [`TAO_ASSESSMENT.md`](./TAO_ASSESSMENT.md). That file is the main reader-facing answer to the question:
+
+- after the latest rerun, how much does this repository really explain about the gap between understandable machinery and hard-to-predict behavior?
+
+The short version from the current run is:
+
+- the repo now exports a real local predictive law
+- it exports explicit failure categories
+- it executes a linked substrate notebook successfully
+- and, crucially, it adds a data-driven local IFME lock-selection result
+
+The latest rerun currently supports:
+
+- `11/11` tests passing
+- successful demo execution
+- a local law with holdout `R^2 ≈ 0.9416`
+- explicit failure-atlas counts of `collapse = 8`, `generalization_risk = 1`, `stable_reasoning = 23`
+- a stable linked substrate notebook run with `5` generated figures
+- a local IFME result selecting a `2-lock` regime with:
+  - `retrieval_context_integration_lock`
+  - `generalization_gap_lock`
+
+This does **not** mean the repo has solved the general puzzle of language-model behavior.
+
+It **does** mean the repo now offers a more structured answer than:
+
+- “models are weird”
+- “emergence happened”
+- “retrieval is brittle”
+
+Instead, the repo is now saying:
+
+- here is the local predictive law
+- here is the local failure map
+- here is the local latent lock structure
+- here are the conditions under which those claims should still count as supported
+
+That is the central reason [`TAO_ASSESSMENT.md`](./TAO_ASSESSMENT.md) matters in this repository.
+
 ## Current Results and Tao Assessment
 
-If you want the full, run-specific interpretation of the latest Layer 2 outputs, read [`TAO_ASSESSMENT.md`](./TAO_ASSESSMENT.md). That file is the best reader-oriented answer to the question:
+If you want the full, run-specific interpretation of the latest IFME repo outputs, read [`TAO_ASSESSMENT.md`](./TAO_ASSESSMENT.md). That file is the best reader-oriented answer to the question:
 
 - after the latest rerun, how much does this repository actually explain about the gap between simple model mechanics and hard-to-predict model behavior?
 
-The short version is that Layer 2 now answers that question better than the earlier repository, but still only within a narrow measured regime.
+The short version is that the IFME repo now answers that question better than the earlier repositories, but still only within a narrow measured regime.
 
 ### What was just re-run
 
@@ -45,18 +94,19 @@ The current assessment is based on a fresh rerun of:
 
 Current rerun status:
 
-- tests: `10/10` passing
+- tests: `11/11` passing
 - demo: completed successfully
 
 ### Which artifacts matter most
 
 If you only inspect a handful of outputs, inspect these:
 
-- [`artifacts/layer2/measured/measured_summary.json`](./artifacts/layer2/measured/measured_summary.json)
-- [`artifacts/layer2/measured/measured_records.csv`](./artifacts/layer2/measured/measured_records.csv)
-- [`artifacts/layer2/failure_atlas/failure_atlas.json`](./artifacts/layer2/failure_atlas/failure_atlas.json)
-- [`artifacts/layer2/notebooks/22_scaling_laws.execution.json`](./artifacts/layer2/notebooks/22_scaling_laws.execution.json)
-- [`artifacts/layer2/sweeps/sweep_summary.json`](./artifacts/layer2/sweeps/sweep_summary.json)
+- [`artifacts/ifme/measured/measured_summary.json`](./artifacts/ifme/measured/measured_summary.json)
+- [`artifacts/ifme/measured/measured_records.csv`](./artifacts/ifme/measured/measured_records.csv)
+- [`artifacts/ifme/failure_atlas/failure_atlas.json`](./artifacts/ifme/failure_atlas/failure_atlas.json)
+- [`artifacts/ifme/notebooks/22_scaling_laws.execution.json`](./artifacts/ifme/notebooks/22_scaling_laws.execution.json)
+- [`artifacts/ifme/ifme/ifme_summary.json`](./artifacts/ifme/ifme/ifme_summary.json)
+- [`artifacts/ifme/sweeps/sweep_summary.json`](./artifacts/ifme/sweeps/sweep_summary.json)
 
 These are the files that support the core claim that the repository is doing more than generating nice plots or abstract architecture diagrams.
 
@@ -67,18 +117,18 @@ The current measured-law run reports:
 - `record_count = 32`
 - `train_count = 16`
 - `holdout_count = 16`
-- model fit `R^2 ≈ 0.9771`
-- holdout `MAE ≈ 0.0021`
-- holdout `R^2 ≈ 0.9264`
+- model fit `R^2 ≈ 0.9919`
+- holdout `MAE ≈ 0.0022`
+- holdout `R^2 ≈ 0.9416`
 
 The current local fitted law is:
 
-`capability_score = 0.222348 + 0.000014*scale + 0.000000*data_tokens + 0.005762*task_family_code - 0.037462*retrieval_dependence`
+`capability_score = 0.225454 - 0.000040*scale + 0.000000*data_tokens + 0.003211*task_family_code - 0.030676*retrieval_dependence`
 
 That law is intentionally exported in falsifiable form. The artifact does not merely present coefficients. It also states the conditions under which the law should still be considered supported:
 
-- holdout `MAE` should remain at or below roughly `0.0021`
-- holdout `R^2` should remain at or above roughly `0.9264`
+- holdout `MAE` should remain at or below roughly `0.0022`
+- holdout `R^2` should remain at or above roughly `0.9416`
 - the claim applies only inside the measured regime represented by the run
 
 That is important. It means the repo is trying to behave more like an empirical instrument than a storytelling device.
@@ -87,10 +137,10 @@ That is important. It means the repo is trying to behave more like an empirical 
 
 The current task-family means are:
 
-- `retrieval_qa ≈ 0.2029`
-- `object_tracking ≈ 0.2229`
-- `pair_matching ≈ 0.2286`
-- `babi_simple ≈ 0.2320`
+- `retrieval_qa ≈ 0.2025`
+- `object_tracking ≈ 0.2244`
+- `pair_matching ≈ 0.2288`
+- `babi_simple ≈ 0.2289`
 
 This matters because it gives a concrete, current-run answer to one of the central concerns in Tao’s framing:
 
@@ -106,7 +156,8 @@ The failure-atlas artifact is now populated and explicit. The latest run reports
 
 - `record_count = 32`
 - `collapse = 8`
-- `stable_reasoning = 24`
+- `generalization_risk = 1`
+- `stable_reasoning = 23`
 
 It also stores per-record:
 
@@ -124,6 +175,25 @@ The latest direct execution wrapper result for the linked scaling-laws notebook 
 - empty `stderr`
 - `5` generated figures
 
+### What the IFME result adds
+
+The IFME-specific artifact adds a new layer beyond the plain measured-law and failure-atlas exports.
+
+The latest run reports:
+
+- selected lock count: `2`
+- selected regime: `2-lock`
+- parallel retained count: `2`
+- MAP preferred count: `1`
+- bootstrap modal count: `2`
+
+The current selected candidate lock families are:
+
+- `retrieval_context_integration_lock`
+- `generalization_gap_lock`
+
+This is the core IFME-specific answer to Tao’s concern. Instead of assuming a fixed triple-lock story, the repo now infers a local latent lock structure from the measured field itself.
+
 That matters because one of the previous weak points of Layer 2 was that richer notebook wrapping existed in concept but not as a stable execution path. The current run is better: the notebook wrapper now produces an actual execution report and saved figures rather than failing during headless execution.
 
 ### What this does and does not establish
@@ -134,12 +204,14 @@ What it does establish:
 - the repo can validate that law on holdout data
 - the repo can export explicit failure structure
 - the repo can connect that interpretation back to a real linked substrate notebook
+- the repo can infer a local data-driven lock structure rather than fixing the number of locks in advance
 
 What it does not establish:
 
 - a general theory of frontier LLM behavior
 - a deep theory of the language “middle regime”
 - globally transferable scaling laws across model families and data regimes
+- a universal lock count for capability structure
 
 So the right claim is not:
 
@@ -313,7 +385,7 @@ The main Python package.
   Produces Sutskever-Agent-oriented briefs and workflow bundles from the exported Layer 2 study outputs.
 
 - [`capability_cartography/ifme.py`](./capability_cartography/ifme.py)
-  Builds a local IFME field matrix from measured Layer 2 records and selects a data-driven local `n`-lock solution using retention, bootstrap, and sufficiency criteria.
+  Builds a local IFME field matrix from measured IFME-repo records and selects a data-driven local `n`-lock solution using retention, bootstrap, and sufficiency criteria.
 
 ### `tests/`
 
@@ -401,7 +473,7 @@ This will:
 9. export sweep records and surface summaries to `./artifacts/sweeps/`
 10. run a measured study using actual tiny GPT-1 training loops on task families derived from the linked substrate
 11. export held-out validation, bootstrap intervals, and falsifiable law statements to `./artifacts/measured/`
-12. run the Layer 2 orchestration stack and export failure-atlas, plot, notebook, and agent-workflow outputs to `./artifacts/layer2/`
+12. run the IFME orchestration stack and export failure-atlas, plot, notebook, IFME, and agent-workflow outputs to `./artifacts/ifme/`
 
 ## Linked Mode
 
@@ -456,12 +528,12 @@ The measured study outputs also contain:
 - provenance with linked repository commits
 - falsifiable law statements with explicit validation error
 
-## Layer 2 Artifact Tree
+## IFME Artifact Tree
 
-The current Layer 2 orchestration exports a second-generation artifact bundle under [`artifacts/layer2/`](./artifacts/layer2/). At the time of writing, the exact current tree includes:
+The current IFME orchestration exports a second-generation artifact bundle under [`artifacts/ifme/`](./artifacts/ifme/). At the time of writing, the exact current tree includes:
 
 ```text
-artifacts/layer2/
+artifacts/ifme/
 ├── agent/
 │   ├── agent_brief.json
 │   └── agent_workflow.yaml
@@ -492,25 +564,25 @@ artifacts/layer2/
     └── sweep_summary.json
 ```
 
-The most important Layer 2 outputs are:
+The most important IFME repo outputs are:
 
-- [`artifacts/layer2/measured/measured_summary.json`](./artifacts/layer2/measured/measured_summary.json)
+- [`artifacts/ifme/measured/measured_summary.json`](./artifacts/ifme/measured/measured_summary.json)
   The current local predictive-law summary with train/holdout split metrics and bootstrap intervals.
-- [`artifacts/layer2/measured/measured_records.csv`](./artifacts/layer2/measured/measured_records.csv)
+- [`artifacts/ifme/measured/measured_records.csv`](./artifacts/ifme/measured/measured_records.csv)
   The measured run table used for current local-law fitting and task-family analysis.
-- [`artifacts/layer2/failure_atlas/failure_atlas.json`](./artifacts/layer2/failure_atlas/failure_atlas.json)
+- [`artifacts/ifme/failure_atlas/failure_atlas.json`](./artifacts/ifme/failure_atlas/failure_atlas.json)
   The exported failure-atlas artifact with label counts, centroids, and per-record predictions.
-- [`artifacts/layer2/ifme/ifme_summary.json`](./artifacts/layer2/ifme/ifme_summary.json)
+- [`artifacts/ifme/ifme/ifme_summary.json`](./artifacts/ifme/ifme/ifme_summary.json)
   The current local IFME `n`-lock selection summary with retention tests, bootstrap stability, sufficiency metrics, and selected lock count.
-- [`artifacts/layer2/ifme/ifme_components.csv`](./artifacts/layer2/ifme/ifme_components.csv)
+- [`artifacts/ifme/ifme/ifme_components.csv`](./artifacts/ifme/ifme/ifme_components.csv)
   The named candidate lock rows and top-loading features for the current selected local lock regime.
-- [`artifacts/layer2/notebooks/22_scaling_laws.execution.json`](./artifacts/layer2/notebooks/22_scaling_laws.execution.json)
+- [`artifacts/ifme/notebooks/22_scaling_laws.execution.json`](./artifacts/ifme/notebooks/22_scaling_laws.execution.json)
   The linked substrate notebook execution report, including runtime status and generated figures.
-- [`artifacts/layer2/plots/onset_surface.png`](./artifacts/layer2/plots/onset_surface.png)
+- [`artifacts/ifme/plots/onset_surface.png`](./artifacts/ifme/plots/onset_surface.png)
   The current static onset-surface visualization.
-- [`artifacts/layer2/plots/phase_regions.png`](./artifacts/layer2/plots/phase_regions.png)
+- [`artifacts/ifme/plots/phase_regions.png`](./artifacts/ifme/plots/phase_regions.png)
   The current static phase-region visualization.
-- [`artifacts/layer2/agent/agent_workflow.yaml`](./artifacts/layer2/agent/agent_workflow.yaml)
+- [`artifacts/ifme/agent/agent_workflow.yaml`](./artifacts/ifme/agent/agent_workflow.yaml)
   The exported Sutskever-Agent workflow bundle for the current orchestration result.
 
 ## Configuration Model

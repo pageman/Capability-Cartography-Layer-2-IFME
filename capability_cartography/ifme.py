@@ -1,4 +1,4 @@
-"""IFME-style n-lock analysis over Layer 2 measured artifacts."""
+"""IFME-style n-lock analysis over measured IFME repo artifacts."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ class IFMEAnalysisBundle:
 
 
 class IFMELockAnalyzer:
-    """Select a local n-lock solution from measured Layer 2 records."""
+    """Select a local n-lock solution from measured IFME repo records."""
 
     def __init__(self, *, random_seed: int = 0, parallel_samples: int = 200, bootstrap_samples: int = 64):
         self.random_seed = random_seed
@@ -59,10 +59,10 @@ class IFMELockAnalyzer:
         summary = {
             "record_count": len(records),
             "field_definition": {
-                "raw_feature_names": feature_names,
-                "residual_feature_names": residual_feature_names,
-                "state_interpretation": (
-                    "The current IFME local chart is built from measured Layer 2 observables and derived interaction terms. "
+                    "raw_feature_names": feature_names,
+                    "residual_feature_names": residual_feature_names,
+                    "state_interpretation": (
+                    "The current IFME local chart is built from measured IFME-repo observables and derived interaction terms. "
                     "This is a local field construction, not a universal final state space."
                 ),
             },
@@ -77,11 +77,11 @@ class IFMELockAnalyzer:
             "selection_rationale": rationale,
             "candidate_lock_families": [row["lock_name"] for row in lock_rows],
             "local_law_interpretation": (
-                "Treat the fitted Layer 2 predictive law as a local chart on the IFME manifold. "
+                "Treat the fitted IFME-repo predictive law as a local chart on the IFME manifold. "
                 "The selected lock count is valid only inside the current measured regime."
             ),
             "limitations": [
-                "Current IFME selection is based on the present small measured Layer 2 regime.",
+                "Current IFME selection is based on the present small measured IFME-repo regime.",
                 "Compressibility and context-geometry variables are not yet flattened into the measured records table at the same richness described in the full IFME state construction.",
                 "The present solution should be read as a local empirical lock count, not a final universal capability structure.",
             ],

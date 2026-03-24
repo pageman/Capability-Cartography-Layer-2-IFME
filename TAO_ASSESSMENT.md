@@ -2,27 +2,23 @@
 
 ## Scope
 
-This assessment is specific to the current run state of `Capability-Cartography-Layer-2-IFME`. It is not a generic statement about the design goals of the repository. It is a judgment based on the current generated artifacts after re-running the repository locally in linked mode against:
+This assessment is specific to the current run state of `Capability-Cartography-Layer-2-IFME`. It is based on the latest local rerun of the repository in linked mode against:
 
 - `pageman/Sutskever-30-implementations`
 - `pageman/Sutskever-Agent`
 - `pageman/gpt1-from-Sutskever30`
 
-The point of the assessment is to answer a narrow question:
+It addresses the core concern shared by Terence Tao’s framing and Prof. Brian Keating’s broader AI-puzzle framing:
 
-Does this repository, as it runs today, meaningfully answer Terence Tao’s framing of the modern AI puzzle, or does it only restate that puzzle in better software form?
+- we understand the mechanics of model construction much better than we understand the structure of model behavior
 
-## Tao’s Framing
+In that sense, the standard for this repository is not:
 
-Tao’s observation is that the basic mathematics of LLM construction is not terribly exotic. The mystery is not how matrix multiplication works. The mystery is why models display competence on some tasks, collapse on others, and do so in ways we still struggle to predict before the fact.
-
-So the standard here is not:
-
-- does this repo explain transformers?
+- does it explain transformers at the mechanism level?
 
 The real standard is:
 
-- does this repo convert behavioral mystery into predictive, falsifiable, measurable structure?
+- does it turn behavioral mystery into something predictive, falsifiable, and inspectable?
 
 ## What Was Re-Run
 
@@ -33,18 +29,20 @@ The latest assessment is based on re-running:
 
 Latest rerun status:
 
-- tests: `10/10` passing
+- tests: `11/11` passing
 - demo: completed successfully
 
 The artifacts used for this assessment are:
 
-- [`artifacts/layer2/measured/measured_summary.json`](./artifacts/layer2/measured/measured_summary.json)
-- [`artifacts/layer2/measured/measured_records.csv`](./artifacts/layer2/measured/measured_records.csv)
-- [`artifacts/layer2/failure_atlas/failure_atlas.json`](./artifacts/layer2/failure_atlas/failure_atlas.json)
-- [`artifacts/layer2/notebooks/22_scaling_laws.execution.json`](./artifacts/layer2/notebooks/22_scaling_laws.execution.json)
-- [`artifacts/layer2/sweeps/sweep_summary.json`](./artifacts/layer2/sweeps/sweep_summary.json)
+- [`artifacts/ifme/measured/measured_summary.json`](./artifacts/ifme/measured/measured_summary.json)
+- [`artifacts/ifme/measured/measured_records.csv`](./artifacts/ifme/measured/measured_records.csv)
+- [`artifacts/ifme/failure_atlas/failure_atlas.json`](./artifacts/ifme/failure_atlas/failure_atlas.json)
+- [`artifacts/ifme/notebooks/22_scaling_laws.execution.json`](./artifacts/ifme/notebooks/22_scaling_laws.execution.json)
+- [`artifacts/ifme/ifme/ifme_summary.json`](./artifacts/ifme/ifme/ifme_summary.json)
+- [`artifacts/ifme/ifme/ifme_components.csv`](./artifacts/ifme/ifme/ifme_components.csv)
+- [`artifacts/ifme/sweeps/sweep_summary.json`](./artifacts/ifme/sweeps/sweep_summary.json)
 
-## What The Current Layer 2 Results Actually Show
+## What The Current IFME Repo Actually Shows
 
 ### 1. It produces a real local predictive law
 
@@ -53,177 +51,204 @@ The current measured-law output reports:
 - `record_count = 32`
 - `train_count = 16`
 - `holdout_count = 16`
-- model fit `R^2 ≈ 0.9771`
-- holdout `MAE ≈ 0.0021`
-- holdout `R^2 ≈ 0.9264`
+- model fit `R^2 ≈ 0.9919`
+- holdout `MAE ≈ 0.0022`
+- holdout `R^2 ≈ 0.9416`
 
-The current fitted law is:
+The current fitted local law is:
 
-`capability_score = 0.222348 + 0.000014*scale + 0.000000*data_tokens + 0.005762*task_family_code - 0.037462*retrieval_dependence`
+`capability_score = 0.225454 - 0.000040*scale + 0.000000*data_tokens + 0.003211*task_family_code - 0.030676*retrieval_dependence`
 
-The repository also exports that law in a falsifiable form:
+The repo also exports the law in falsifiable form:
 
-`Within the measured regime, capability_score = 0.222348 + 0.000014*scale + 0.000000*data_tokens + 0.005762*task_family_code + -0.037462*retrieval_dependence. This law is supported only if holdout MAE remains <= 0.0021 and holdout R^2 remains >= 0.9264 on new runs from the same regime.`
+`Within the measured regime, capability_score = 0.225454 + -0.000040*scale + 0.000000*data_tokens + 0.003211*task_family_code + -0.030676*retrieval_dependence. This law is supported only if holdout MAE remains <= 0.0022 and holdout R^2 remains >= 0.9416 on new runs from the same regime.`
 
-That matters because the repository is no longer saying only:
+That matters because the repo is not merely narrating competence after the fact. It is stating:
 
-- performance changed
-- a capability seemed to emerge
-- one setup looked brittle
+- the variables used
+- the fitted relation
+- the holdout conditions under which the relation should still count as supported
 
-It is instead stating:
+That is already much closer to an empirical science than to benchmark folklore.
 
-- what variables were measured
-- what the fitted relation is
-- how well it held on a holdout split
-- what numerical thresholds would count as continued support
+### 2. Task-family differentiation remains real
 
-That is a serious improvement over pure benchmark folklore.
+The current task-family means from [`measured_records.csv`](./artifacts/ifme/measured/measured_records.csv) are:
 
-### 2. Task-family differentiation is real in the current run
+- `retrieval_qa ≈ 0.2025`
+- `object_tracking ≈ 0.2244`
+- `pair_matching ≈ 0.2288`
+- `babi_simple ≈ 0.2289`
 
-The current task-family means from [`measured_records.csv`](./artifacts/layer2/measured/measured_records.csv) are:
+So the current IFME repo still shows a meaningful split by task family rather than a single undifferentiated capability score. In the present measured regime:
 
-- `retrieval_qa ≈ 0.2029`
-- `object_tracking ≈ 0.2229`
-- `pair_matching ≈ 0.2286`
-- `babi_simple ≈ 0.2320`
+- retrieval-heavy work is still the weakest family
 
-This means the current Layer 2 run does not just pretend that task family matters. It measures a stable gap between task families in the current regime, with `retrieval_qa` as the hardest family in this setup.
+That directly addresses part of Tao’s concern and part of Keating’s broader puzzle framing:
 
-That is directly relevant to Tao’s concern that models are strong on some tasks and weak on others without sufficiently predictive principles. The code now gives at least one local principle:
+- models do not simply “have capability”
+- capability depends on task form and context structure
 
-- retrieval-heavy task structure is associated with lower measured capability in this regime
+### 3. Failure structure is explicit
 
-### 3. Failure modes are now exported explicitly
-
-The current failure-atlas artifact reports:
+The current failure atlas reports:
 
 - `record_count = 32`
-- `label_counts = {"collapse": 8, "stable_reasoning": 24}`
+- `collapse = 8`
+- `generalization_risk = 1`
+- `stable_reasoning = 23`
 
-The artifact also contains per-record:
+That means the repo is no longer speaking only in vague terms like “brittle” or “unreliable.” It exports an explicit categorical map of local failure regions.
 
-- `actual_label`
-- `predicted_label`
-- centroid-distance diagnostics
+This failure atlas is still simple and centroid-based. It is not the final answer. But it is a real machine-readable failure structure rather than a placeholder.
 
-This is important because the previous weak version of Layer 2 could gesture at failure geometry without exporting enough structure to inspect it properly. The current run is better. It now produces an explicit, inspectable failure-atlas artifact rather than only abstract classifier scaffolding.
+### 4. The linked substrate notebook path is stable
 
-The current failure atlas is still simple. It is centroid-based, not state-of-the-art, and the label taxonomy is still small. But the artifact is now real.
-
-### 4. Direct substrate notebook execution is now stable enough to count
-
-The current notebook execution report for [`22_scaling_laws.execution.json`](./artifacts/layer2/notebooks/22_scaling_laws.execution.json) shows:
+The current report for [`22_scaling_laws.execution.json`](./artifacts/ifme/notebooks/22_scaling_laws.execution.json) shows:
 
 - `returncode = 0`
 - `stderr = ""`
 - `generated_figures = 5`
 
-This matters because the earlier state of Layer 2 had a credibility problem: it claimed richer notebook wrapping while the direct execution path was unstable. That is no longer true for the current checked notebook.
+That matters because it means the repo is no longer merely claiming to integrate the substrate. It actually executes a linked substrate notebook path and exports the result as part of the empirical record.
 
-This does not mean notebook execution is universally solved across the whole substrate. It does mean the specific path being used in the Layer 2 orchestration is no longer crashing, and the repo now exports a concrete substrate execution report with generated figures.
+### 5. The IFME layer adds a real lock-selection result
 
-### 5. The sweep layer still gives threshold-style summaries
+This is the main difference between the IFME repo and the plain Layer 2 repo.
 
-The current sweep output reports:
+The current IFME output reports:
 
-- `record_count = 36`
-- `surface_fit R^2 ≈ 0.9730`
-- onset threshold by `scale = 32`
-- onset threshold by `data_tokens = 32768`
+- selected lock count: `2`
+- selected regime: `2-lock`
+- parallel retained count: `2`
+- MAP preferred count: `1`
+- bootstrap modal count: `2`
 
-These sweep results are still more synthetic than the measured-law path, so they should be interpreted more cautiously. But they still contribute to the central cartography goal:
+The current selected candidate lock families are:
 
-- replacing vague “emergence” language with thresholds and onset surfaces
+- `retrieval_context_integration_lock`
+- `generalization_gap_lock`
 
-## What These Results Mean Relative to Tao’s Question
+So the repo is no longer only saying:
 
-### What Layer 2 now answers
+- “maybe the system has several hidden constraints”
 
-Layer 2 now gives a meaningful answer to part of Tao’s puzzle.
+It is now running a local, data-driven lock-selection pass and exporting the result.
 
-It shows that model behavior can be transformed from:
+That does **not** mean the true universal lock count for language models is two. It means:
 
-- vague emergence stories
-- benchmark anecdotes
-- post hoc narratives
+- in the current measured regime, the smallest retained and behaviorally sufficient local IFME interpretation is a `2-lock` solution
 
-into:
+That is a significant conceptual upgrade because it replaces fixed “triple-lock” storytelling with data-driven local lock selection.
 
-- measured records
-- held-out predictive laws
-- uncertainty intervals
-- explicit failure categories
-- notebook-backed substrate artifacts
+## What This Means Relative to Tao’s Concern
 
-That is not a trivial improvement. It means the repo is no longer merely architectural. It is now empirically productive.
+### What it now answers
 
-In particular, it now supports these narrower claims:
+The IFME repo now answers Tao’s concern more strongly than plain Layer 2 did.
 
-- behavior differences across task families can be measured rather than hand-waved
-- retrieval-heavy settings are harder in the current regime
-- some local predictive laws can be stated and tested on holdout data
-- failure modes can be exported in explicit machine-readable form
-- substrate notebook execution can feed the cartography story rather than sit beside it as dead pedagogy
+It does four important things at once:
 
-### What Layer 2 still does not answer
+- fits a local predictive law
+- exports explicit failure structure
+- stabilizes linked substrate execution
+- adds a latent-structure interpretation through data-driven lock selection
 
-The current run still does **not** solve Tao’s puzzle in the broad sense.
+That means the repo now moves beyond:
+
+- “the model behaved strangely here”
+
+toward:
+
+- “the model’s behavior in this local regime can be represented by a measured law plus a small latent lock structure”
+
+That is exactly the kind of move Tao’s concern demands:
+
+- not just mechanism description
+- not just empirical trial-and-error
+- but an attempt to infer compact structure from behavioral data
+
+### What it still does not answer
+
+The current IFME repo still does **not** solve the full puzzle in a general sense.
 
 It does not yet provide:
 
-- a general theory of LLM capability
-- a theory of the language “middle regime” between randomness and order
-- laws known to transfer from this small regime to large frontier models
-- a causal explanation of why the measured coefficients take the values they do
+- a universal theory of LLM capability
+- a general theory of the language “middle regime”
+- a lock count known to transfer across larger models or realistic corpora
+- a deep mathematical explanation of why the current local locks arise
 
-There are also specific reasons for caution:
+There are also reasons for caution:
 
 - the measured regime is still small
 - the tasks are still semi-synthetic
-- `data_tokens` remains effectively weak in the current law
-- the `scale` coefficient is positive, but its bootstrap interval still crosses zero
-- the failure atlas is explicit, but still simple and hand-labeled
+- `data_tokens` remains effectively weak
+- the fitted `scale` effect is currently negative in this run, which is a reminder that these local laws are regime-bound and should not be overgeneralized
+- the selected `2-lock` structure is local and provisional, not final
 
-So the correct reading is not:
+So the right reading is not:
 
-- the mystery is solved
+- the mystery has been solved
 
-The correct reading is:
+The right reading is:
 
-- the mystery has been narrowed into a more disciplined empirical problem
+- the mystery has been compressed into a more disciplined local empirical problem
 
-## The Strongest Defensible Interpretation
+## Relation to Prof. Keating’s Concern
 
-The strongest defensible claim is this:
+Prof. Keating’s framing emphasizes that the real AI puzzle is not just “how does the machinery work?” but:
 
-Capability Cartography Layer 2 IFME now provides a real local empirical response to Tao’s puzzle. It does not merely say that behavior is mysterious. It fits and validates a predictive relation, exports explicit failure structure, and successfully executes a linked substrate notebook as part of the artifact set.
+- where do capabilities come from?
+- why do failure modes appear where they do?
+- what predicts stability versus collapse?
 
-But the correct qualifier is just as important:
+The current IFME repo addresses that framing in a more structurally explicit way than the previous repos:
 
-the response is local, not universal.
+- capability formation is represented by measured local laws
+- failure formation is represented by an explicit failure atlas
+- latent interaction structure is represented by a data-driven local `n`-lock selection
+- onset thresholds and notebook-backed substrate execution remain part of the artifact set
+
+So in Keating’s language, the repo is still not a final science of intelligence. But it is closer to a map of the field than a mere collection of demos.
+
+## Strongest Defensible Interpretation
+
+The strongest defensible claim is:
+
+Capability Cartography Layer 2 IFME now provides a real local empirical response to Tao’s concern and to Keating’s broader puzzle framing. It does not just fit measured laws; it also infers a compact local latent-constraint structure from the same measured regime.
+
+But the essential qualifier is still:
+
+- local, not universal
 
 That means:
 
-- yes, this is now an early scientific instrument rather than just a demo repo
+- yes, this is now more than a demo repo
+- yes, it behaves like an early scientific instrument
 - no, it is not yet a general science of large language model capability
 
 ## Bottom Line
 
 If the question is:
 
-“Does the current Layer 2 run fully explain why LLMs behave so unevenly across tasks?”
+“Does this repo fully explain why LLMs behave so unevenly across tasks?”
 
 the answer is no.
 
 If the question is:
 
-“Does the current Layer 2 run turn part of that mystery into a measurable, falsifiable, inspectable empirical program?”
+“Does this repo now turn part of that mystery into a measurable, falsifiable, and locally structured empirical program?”
 
 the answer is yes.
 
-That is the right interpretation of the current results, and it is stronger than the previous state of the repo because the two weakest pieces are no longer weak:
+And in the IFME repo, that answer is stronger than before because the local explanation is no longer only:
 
-- failure-atlas output is now explicit and populated
-- direct substrate notebook execution is now stable for the current checked path
+- predictive law
+- failure map
+
+It is now also:
+
+- data-driven local lock structure
+
+That is the most important upgrade this repo adds to the cartography program.

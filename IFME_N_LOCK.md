@@ -106,12 +106,12 @@ The current end-to-end IFME application inside Layer 2 is:
 
 The outputs are written to:
 
-- [`artifacts/layer2/ifme/ifme_summary.json`](./artifacts/layer2/ifme/ifme_summary.json)
-- [`artifacts/layer2/ifme/ifme_components.csv`](./artifacts/layer2/ifme/ifme_components.csv)
+- [`artifacts/ifme/ifme/ifme_summary.json`](./artifacts/ifme/ifme/ifme_summary.json)
+- [`artifacts/ifme/ifme/ifme_components.csv`](./artifacts/ifme/ifme/ifme_components.csv)
 
 ## Plausible Lock Families in the Current Local Regime
 
-Given the current Layer 2 measured regime, the most plausible local lock families are:
+Given the current IFME repo measured regime, the most plausible local lock families are:
 
 - scale-capacity lock
 - retrieval/context-integration lock

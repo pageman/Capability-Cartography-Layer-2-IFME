@@ -1,4 +1,4 @@
-"""Runnable demo for the Capability Cartography Layer."""
+"""Runnable demo for the Capability Cartography Layer 2 IFME repo."""
 
 from __future__ import annotations
 
@@ -95,10 +95,10 @@ def main() -> None:
     print("Measured Law Summary")
     print(json.dumps(measured_result["summary"], indent=2))
 
-    orchestrator = FullStudyOrchestrator(runner, output_root=artifacts_dir / "layer2")
+    orchestrator = FullStudyOrchestrator(runner, output_root=artifacts_dir / "ifme")
     orchestration_result = orchestrator.run(spec=spec, intervention=intervention)
     print()
-    print("Layer-2 Orchestration Summary")
+    print("IFME Orchestration Summary")
     print(json.dumps(orchestration_result["measured_summary"], indent=2))
 
 
